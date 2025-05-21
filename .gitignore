@@ -1,0 +1,11 @@
+checkpoints/*
+!checkpoints/.gitkeep
+
+data/*
+!data/.gitkeep
+
+Log/*
+!Log/.gitkeep
+
+visual/*
+!visual/.gitkeep
