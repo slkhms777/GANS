@@ -49,4 +49,35 @@ def get_train_pics(path, dataset_name, batch_size=64, num_workers=2):
 
     return train_loader, test_loader
 
+def get_cifar10_dataset(path='./data'):
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+    train_dataset = datasets.CIFAR10(path, train=True, download=True, transform=transform)
+    return train_dataset
+
+def get_datasets(path='./data', dataset_name='cifar10', train_transform=None, test_transform=None):
+    if dataset_name.lower() == 'cifar10':
+        if train_transform is None:
+            train_transform = transforms.Compose([
+                transforms.RandomCrop(32, padding=4),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            ])
+        if test_transform is None:
+            test_transform = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            ])
+
+        trainset = torchvision.datasets.CIFAR10(
+            root=path, train=True, download=True, transform=train_transform)
+        testset = torchvision.datasets.CIFAR10(
+            root=path, train=False, download=True, transform=test_transform)
+        return trainset, testset
+    else:
+        raise ValueError(f"Unsupported dataset: {dataset_name}")
+
 

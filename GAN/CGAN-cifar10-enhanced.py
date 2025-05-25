@@ -274,8 +274,8 @@ def train_cgan(generator, discriminator, dataloader, noise_size, num_classes, nu
                 test_noise = torch.randn(100, noise_size, device=device)
                 test_labels = torch.tensor([i for i in range(10) for _ in range(10)], device=device)
                 gen_imgs = generator(test_noise, test_labels)
-                os.makedirs('./visual/CGAN_CIFAR10/progress', exist_ok=True)
-                save_image_grid(gen_imgs, f'./visual/CGAN_CIFAR10/progress/epoch_{epoch+1}.png', nrow=10)
+                os.makedirs('./visual/CGAN_CIFAR10', exist_ok=True)
+                save_image_grid(gen_imgs, f'./visual/CGAN_CIFAR10/epoch_{epoch+1}.png', nrow=10)
 
         scheduler_g.step()
         scheduler_d.step()
