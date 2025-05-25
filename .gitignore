@@ -9,18 +9,4 @@ Log/*
 
 visual/*
 !visual/.gitkeep
-
-CGAN_DDP_AMP/checkpoints_300M_model/*
-!CGAN_DDP_AMP/checkpoints_300M_model/.gitkeep
-
-CGAN_DDP_AMP/data/*
-!CGAN_DDP_AMP/data/.gitkeep
-
-CGAN_DDP_AMP/logs_300M_model/*
-!CGAN_DDP_AMP/logs_300M_model/.gitkeep
-
-CGAN_DDP_AMP/visual_300M_model/*
-!CGAN_DDP_AMP/visual_300M_model/.gitkeep
-
-CGAN_DDP_AMP/generated_test_images/*
-!CGAN_DDP_AMP/generated_test_images/.gitkeep
+*.
