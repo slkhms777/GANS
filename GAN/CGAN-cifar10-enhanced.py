@@ -382,6 +382,108 @@ def generate_samples_by_class(generator, noise_size, num_classes, device='cuda',
     plt.close()
     return all_samples.cpu()
 
+def generate_samples_per_class(generator, noise_size, num_classes, device='cuda', save_path=None, target_class=None):
+    """
+    为指定类别生成九宫格图片，保存到save_path目录下
+    如果target_class为None，则生成所有类别
+    """
+    generator.to(device)
+    generator.eval()
+    
+    # 保证使用原始模型进行生成
+    if isinstance(generator, nn.DataParallel):
+        generator_module = generator.module
+    else:
+        generator_module = generator
+    
+    # CIFAR-10类别名称
+    class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 
+                   'dog', 'frog', 'horse', 'ship', 'truck']
+    
+    # 从路径中提取类别ID（如果没有指定target_class）
+    if target_class is None and save_path:
+        # 从路径 './visual/CGAN_CIFAR10/class_0' 中提取类别ID
+        import re
+        match = re.search(r'class_(\d+)', save_path)
+        if match:
+            target_class = int(match.group(1))
+        else:
+            print(f"无法从路径 {save_path} 中提取类别ID")
+            return
+    
+    # 为指定类别生成九宫格图片
+    with torch.no_grad():
+        if target_class is not None:
+            # 生成9个样本组成九宫格
+            noise = torch.randn(9, noise_size, device=device)
+            labels = torch.full((9,), target_class, dtype=torch.long, device=device)
+            fake_imgs = generator_module(noise, labels)
+            
+            # 归一化到[0,1]范围
+            fake_imgs = (fake_imgs + 1.0) / 2.0  # 从[-1,1]映射到[0,1]
+            fake_imgs = torch.clamp(fake_imgs, 0.0, 1.0)
+            
+            # 制作3x3的九宫格
+            grid = vutils.make_grid(fake_imgs, nrow=3, padding=2, normalize=False)
+            
+            # 转换为numpy数组用于matplotlib显示
+            npimg = grid.cpu().numpy()
+            npimg = np.transpose(npimg, (1, 2, 0))  # CHW -> HWC
+            
+            # 创建图像并保存
+            plt.figure(figsize=(8, 8))
+            plt.imshow(npimg)
+            plt.title(f'Generated CIFAR-10 Class: {class_names[target_class]} (Label: {target_class})', 
+                     fontsize=16, fontweight='bold')
+            plt.axis('off')
+            
+            # 保存图片
+            if save_path:
+                os.makedirs(save_path, exist_ok=True)
+                save_file = os.path.join(save_path, f'class_{target_class}_3x3.png')
+                plt.savefig(save_file, bbox_inches='tight', pad_inches=0.1, dpi=150)
+                print(f"已保存类别 {target_class} ({class_names[target_class]}) 的九宫格图片到: {save_file}")
+            
+            plt.close()
+        else:
+            # 原有的生成所有类别的逻辑
+            for class_id in range(num_classes):
+                # 生成9个样本组成九宫格
+                noise = torch.randn(9, noise_size, device=device)
+                labels = torch.full((9,), class_id, dtype=torch.long, device=device)
+                fake_imgs = generator_module(noise, labels)
+                
+                # 归一化到[0,1]范围
+                fake_imgs = (fake_imgs + 1.0) / 2.0  # 从[-1,1]映射到[0,1]
+                fake_imgs = torch.clamp(fake_imgs, 0.0, 1.0)
+                
+                # 制作3x3的九宫格
+                grid = vutils.make_grid(fake_imgs, nrow=3, padding=2, normalize=False)
+                
+                # 转换为numpy数组用于matplotlib显示
+                npimg = grid.cpu().numpy()
+                npimg = np.transpose(npimg, (1, 2, 0))  # CHW -> HWC
+                
+                # 创建图像并保存
+                plt.figure(figsize=(8, 8))
+                plt.imshow(npimg)
+                plt.title(f'Generated CIFAR-10 Class: {class_names[class_id]} (Label: {class_id})', 
+                         fontsize=16, fontweight='bold')
+                plt.axis('off')
+                
+                # 保存图片
+                if save_path:
+                    os.makedirs(save_path, exist_ok=True)
+                    save_file = os.path.join(save_path, f'class_{class_id}_3x3.png')
+                    plt.savefig(save_file, bbox_inches='tight', pad_inches=0.1, dpi=150)
+                    print(f"已保存类别 {class_id} ({class_names[class_id]}) 的九宫格图片到: {save_file}")
+                
+                plt.close()
+    
+    if target_class is not None:
+        print(f"类别 {target_class} ({class_names[target_class]}) 的九宫格图片已生成完成")
+    else:
+        print(f"所有类别的九宫格图片已生成完成，保存在: {save_path}")
 
 if __name__ == '__main__':
     # 检测可用的GPU数量
@@ -424,17 +526,29 @@ if __name__ == '__main__':
         discriminator = nn.DataParallel(discriminator)
         print(f"模型已启用多GPU并行训练，使用{num_gpus}张GPU")
 
-    # 加载数据
-    train_loader, test_loader = get_data.get_train_pics(
-        path=data_path, dataset_name='cifar10', batch_size=batch_size, num_workers=2)
+    # # 加载数据
+    # train_loader, test_loader = get_data.get_train_pics(
+    #     path=data_path, dataset_name='cifar10', batch_size=batch_size, num_workers=2)
  
-    print("开始训练")
-    # 训练模型
-    g_losses, d_losses = train_cgan(generator, discriminator, train_loader, 
-                                   noise_size=noise_size, num_classes=num_classes, 
-                                   num_epochs=num_epochs, device=device, 
-                                   checkpoint_dir=checkpoint_dir)
+    # print("开始训练")
+    # # 训练模型
+    # g_losses, d_losses = train_cgan(generator, discriminator, train_loader, 
+    #                                noise_size=noise_size, num_classes=num_classes, 
+    #                                num_epochs=num_epochs, device=device, 
+    #                                checkpoint_dir=checkpoint_dir)
     
-    # 保存损失曲线
-    os.makedirs('./Log/loss_cgan_cifar10_enhanced', exist_ok=True)
-    save_losses(g_losses, d_losses, num_epochs)
+    # # 保存损失曲线
+    # os.makedirs('./Log/loss_cgan_cifar10_enhanced', exist_ok=True)
+    # save_losses(g_losses, d_losses, num_epochs)
+
+    # 每个类单独生成一系列样本
+    for epoch in [100, 120]:
+        for class_id in range(num_classes):
+            os.makedirs(f'./visual/CGAN_CIFAR10/epoch{epoch}/class_{class_id}', exist_ok=True)
+            checkpoint_path = os.path.join(checkpoint_dir, f'generator_epoch{epoch}.pth')
+            path = f'./visual/CGAN_CIFAR10/epoch{epoch}/class_{class_id}'
+            if isinstance(generator, nn.DataParallel):
+                generator.module.load_state_dict(torch.load(checkpoint_path, map_location=device))
+            else:
+                generator.load_state_dict(torch.load(checkpoint_path, map_location=device))
+            generate_samples_per_class(generator, noise_size, num_classes, device=device, save_path=path, target_class=class_id)
