@@ -9,4 +9,6 @@ Log/*
 
 visual/*
 !visual/.gitkeep
-*.
+
+BigGAN/data/*
+!BigGAN/data/.gitkeep
