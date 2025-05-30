@@ -97,6 +97,12 @@ def sample_5x5_images(generator, ema_generator, epoch, num_classes=3, z_dim=128,
     y = torch.tensor([0]*5 + [1]*5 + [2]*15, device=device)
     z = torch.randn(25, z_dim, device=device)
 
+    # 处理可能的DataParallel包装
+    if hasattr(generator, 'module'):
+        generator = generator.module
+    if hasattr(ema_generator, 'module'):
+        ema_generator = ema_generator.module
+
     generator.eval()  # 添加eval模式
     ema_generator.eval()  # 添加eval模式
 

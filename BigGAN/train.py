@@ -53,8 +53,15 @@ def train_miniBigGAN(
     dataloader,
     num_epochs,
     num_classes,
+    num_gpus=1,  # 新增参数
 ):
     print("开始训练 MiniBigGAN...")
+    
+    # 获取原始模型用于保存检查点
+    generator_module = generator.module if isinstance(generator, nn.DataParallel) else generator
+    discriminator_module = discriminator.module if isinstance(discriminator, nn.DataParallel) else discriminator
+    ema_generator_module = ema_generator.module if isinstance(ema_generator, nn.DataParallel) else ema_generator
+    
     optimizer_g = optim.Adam(generator.parameters(), lr=2e-4, betas=(0.0, 0.9))
     optimizer_d = optim.Adam(discriminator.parameters(), lr=2e-4, betas=(0.0, 0.9))
 
@@ -92,7 +99,9 @@ def train_miniBigGAN(
             # --- 训练判别器 ---
             discriminator.zero_grad()
             
-            z = torch.randn(images.size(0), generator.z_dim, device=device)
+            # 对于DataParallel模型，需要访问z_dim属性
+            z_dim = generator_module.z_dim
+            z = torch.randn(images.size(0), z_dim, device=device)
             fake_images_detached = generator(z, labels).detach() # 分离计算图
 
             real_scores = discriminator(images, labels)
@@ -120,8 +129,8 @@ def train_miniBigGAN(
             g_loss_total.backward()
             optimizer_g.step()
 
-            # EMA 更新
-            update_ema(ema_generator, generator, alpha=0.999)
+            # EMA 更新 - 使用原始模型
+            update_ema(ema_generator_module, generator_module, alpha=0.999)
 
             # 更新学习率
             scheduler_g.step()
@@ -147,16 +156,23 @@ def train_miniBigGAN(
         epoch_avg_g_hinge_losses.append(avg_g_hinge_loss_epoch)
         epoch_avg_ortho_losses.append(avg_total_ortho_loss_epoch)
 
-        # 打印每个epoch的平均损失
+        # 打印每个epoch的平均损失和GPU使用情况
         print(f"Epoch [{epoch+1}/{num_epochs}] Completed: "
               f"Avg D Hinge Loss: {avg_d_hinge_loss_epoch:.4f}, "
               f"Avg G Hinge Loss: {avg_g_hinge_loss_epoch:.4f}, "
               f"Avg Ortho Loss (D+G): {avg_total_ortho_loss_epoch:.4f}")
-
-        # 保存模型
+        
+        # 每10个epoch打印GPU使用情况
         if (epoch + 1) % 10 == 0:
-            save_checkpoint(generator, discriminator, ema_generator, optimizer_g, optimizer_d, epoch + 1)
-            sample_5x5_images(generator, ema_generator, epoch + 1, num_classes=num_classes, device=device)
+            for gpu_id in range(num_gpus):
+                print(f"GPU {gpu_id} 内存使用: {torch.cuda.memory_allocated(gpu_id)/1024**3:.2f}GB")
+
+        # 保存模型 - 使用原始模型而不是DataParallel包装的模型
+        if (epoch + 1) % 10 == 0:
+            save_checkpoint(generator_module, discriminator_module, ema_generator_module, 
+                          optimizer_g, optimizer_d, epoch + 1)
+            sample_5x5_images(generator_module, ema_generator_module, epoch + 1, 
+                             num_classes=num_classes, device=device)
     
     return epoch_avg_g_hinge_losses, epoch_avg_d_hinge_losses, epoch_avg_ortho_losses
 
