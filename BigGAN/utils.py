@@ -4,21 +4,17 @@ import torchvision.transforms as transforms
 import torchvision.utils as vutils
 from torch.utils.data import Dataset, DataLoader
 from torchvision import datasets, transforms
+import csv
+import matplotlib.pyplot as plt
 import os
-from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
-from tqdm import tqdm
 import torchvision.utils as vutils
 
 
 import cv2
 
 # 全局路径配置
-data_path = './data/'
-log_path = './logs/'
-checkpoints_path = './checkpoints/'
-visual_path = './visual/'
 
 data_dir = './data'
 log_dir = './logs'
@@ -31,7 +27,7 @@ def get_animalfaces_dataloader(batch_size=64, image_size=128, num_workers=8, roo
     加载AnimalFaces数据集（cat/dog/wild）为ImageFolder格式的DataLoader
     """
     if root_dir is None:
-        root_dir = os.path.join(data_path, 'AnimalFaces', 'train')
+        root_dir = os.path.join(data_dir, 'AnimalFaces', 'train')
     transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),
         transforms.ToTensor(),
@@ -123,3 +119,67 @@ def sample_5x5_images(generator, ema_generator, epoch, num_classes=3, z_dim=128,
 
     generator.train()  # 恢复train模式
     # ema_generator保持eval模式
+
+def save_and_plot_losses(g_hinge_losses, d_hinge_losses, ortho_losses, save_dir=visual_dir):
+    """
+    保存损失到CSV文件并绘制损失曲线图。
+
+    参数:
+    g_hinge_losses (list): 每个epoch的生成器Hinge损失列表。
+    d_hinge_losses (list): 每个epoch的判别器Hinge损失列表。
+    ortho_losses (list): 每个epoch的总正交正则化损失列表。
+    save_dir (str): 保存CSV和图像的目录。
+    """
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    num_epochs = len(g_hinge_losses)
+    epochs = list(range(1, num_epochs + 1))
+
+    # 1. 保存损失到CSV文件
+    csv_file_path = os.path.join(save_dir, 'training_losses.csv')
+    with open(csv_file_path, 'w', newline='') as csvfile:
+        fieldnames = ['Epoch', 'Generator_Hinge_Loss', 'Discriminator_Hinge_Loss', 'Total_Orthogonal_Loss']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for i in range(num_epochs):
+            writer.writerow({
+                'Epoch': epochs[i],
+                'Generator_Hinge_Loss': g_hinge_losses[i],
+                'Discriminator_Hinge_Loss': d_hinge_losses[i],
+                'Total_Orthogonal_Loss': ortho_losses[i]
+            })
+    print(f"损失数据已保存到: {csv_file_path}")
+
+    # 2. 绘制并保存损失曲线图
+    plt.figure(figsize=(12, 8))
+
+    plt.subplot(3, 1, 1)
+    plt.plot(epochs, g_hinge_losses, label='Generator Hinge Loss', color='blue')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Generator Hinge Loss Over Epochs')
+    plt.legend()
+    plt.grid(True)
+
+    plt.subplot(3, 1, 2)
+    plt.plot(epochs, d_hinge_losses, label='Discriminator Hinge Loss', color='red')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Discriminator Hinge Loss Over Epochs')
+    plt.legend()
+    plt.grid(True)
+
+    plt.subplot(3, 1, 3)
+    plt.plot(epochs, ortho_losses, label='Total Orthogonal Loss (D+G)', color='green')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Total Orthogonal Loss Over Epochs')
+    plt.legend()
+    plt.grid(True)
+
+    plt.tight_layout()
+    plot_file_path = os.path.join(save_dir, 'loss_curves.png')
+    plt.savefig(plot_file_path)
+    plt.close() # 关闭图像，防止在Jupyter等环境中重复显示
+    print(f"损失曲线图已保存到: {plot_file_path}")

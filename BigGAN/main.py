@@ -1,7 +1,7 @@
 import torch
 from mini_biggan import MiniBigGANGenerator, MiniBigGANDiscriminator
-from utils import get_animalfaces_dataloader
-from train import train_miniBigGAN
+from .utils import get_animalfaces_dataloader
+from .train import train_miniBigGAN
 
 
 def main():
@@ -52,7 +52,7 @@ def main():
     # 训练
     train_miniBigGAN(
         generator=generator,
-        discriminatoe=discriminator,
+        discriminator=discriminator,
         ema_generator=ema_generator,
         device=device,
         dataloader=dataloader,

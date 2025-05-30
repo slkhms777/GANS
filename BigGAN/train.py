@@ -3,15 +3,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim.lr_scheduler import LambdaLR
-import torchvision.transforms as transforms
-import torchvision.datasets as datasets
-from torch.utils.data import DataLoader
-import os
+from torchvision import utils as vutils
 import numpy as np
-from tqdm import tqdm
-import time
-from utils import save_checkpoint, sample_5x5_images
+from .utils import save_checkpoint, sample_5x5_images
 from mini_biggan import MiniBigGANGenerator, MiniBigGANDiscriminator
+from tqdm import tqdm # 确保导入 tqdm
 
 
 
@@ -67,61 +63,103 @@ def train_miniBigGAN(
     ema_generator.eval()  
 
     total_steps = num_epochs * len(dataloader)
-    warmup_steps = 10000
-    lr_lambda = get_biggan_lr_lambda(warmup_steps, total_steps)
-    scheduler_g = LambdaLR(optimizer_g, lr_lambda)
-    scheduler_d = LambdaLR(optimizer_d, lr_lambda)
+    warmup_steps = 10000 
+    lr_lambda_func = get_biggan_lr_lambda(warmup_steps, total_steps)
+    scheduler_g = LambdaLR(optimizer_g, lr_lambda_func)
+    scheduler_d = LambdaLR(optimizer_d, lr_lambda_func)
+
+    # 用于存储每个epoch的平均损失
+    epoch_avg_d_hinge_losses = []
+    epoch_avg_g_hinge_losses = []
+    epoch_avg_ortho_losses = []
 
     global_step = 0
     for epoch in range(num_epochs):
-        for i, (images, labels) in enumerate(tqdm(dataloader)):
+        generator.train()
+        discriminator.train()
+
+        # 初始化每个epoch的累积损失
+        running_d_hinge_loss = 0.0
+        running_g_hinge_loss = 0.0
+        running_d_ortho_loss = 0.0
+        running_g_ortho_loss = 0.0
+
+        # 使用 tqdm 包装 dataloader 以显示进度条
+        for i, (images, labels) in enumerate(tqdm(dataloader, desc=f"Epoch {epoch+1}/{num_epochs}")):
             images = images.to(device)
             labels = labels.to(device)
 
-            # 生成器训练
-            z = torch.randn(images.size(0), generator.z_dim, device=device)
-            fake_images = generator(z, labels)
-
-            # 判别器训练
-            real_scores = discriminator(images, labels)
-            fake_scores = discriminator(fake_images.detach(), labels)
-
-            d_loss, g_loss = hinge_loss(real_scores, fake_scores)
-
-            # 更新判别器
+            # --- 训练判别器 ---
             discriminator.zero_grad()
-            d_loss.backward()
+            
+            z = torch.randn(images.size(0), generator.z_dim, device=device)
+            fake_images_detached = generator(z, labels).detach() # 分离计算图
+
+            real_scores = discriminator(images, labels)
+            fake_scores_d = discriminator(fake_images_detached, labels)
+
+            d_loss_hinge, _ = hinge_loss(real_scores, fake_scores_d)
+            d_loss_ortho = orthogonal_regularization(discriminator)
+            d_loss_total = d_loss_hinge + d_loss_ortho
+            
+            d_loss_total.backward()
             optimizer_d.step()
 
-            # 重新计算fake_scores用于生成器训练
-            fake_scores = discriminator(fake_images, labels)
-            d_loss, g_loss = hinge_loss(real_scores, fake_scores)
-
-            # 更新生成器
+            # --- 训练生成器 ---
             generator.zero_grad()
-            g_loss.backward()
+
+            # 不分离计算图
+            fake_images_for_g = generator(z, labels) 
+            fake_scores_g = discriminator(fake_images_for_g, labels)
             
-            # 正交正则化（在optimizer.step之前）
-            ortho_loss = orthogonal_regularization(generator) + orthogonal_regularization(discriminator)
-            ortho_loss.backward()
-            
+            _, g_loss_hinge = hinge_loss(real_scores, fake_scores_g)
+
+            g_loss_ortho = orthogonal_regularization(generator)
+            g_loss_total = g_loss_hinge + g_loss_ortho
+
+            g_loss_total.backward()
             optimizer_g.step()
 
-            # EMA更新（在生成器更新后）
+            # EMA 更新
             update_ema(ema_generator, generator, alpha=0.999)
 
             # 更新学习率
             scheduler_g.step()
             scheduler_d.step()
             global_step += 1
+
+            # 累积当前 batch 的损失
+            running_d_hinge_loss += d_loss_hinge.item()
+            running_g_hinge_loss += g_loss_hinge.item()
+            running_d_ortho_loss += d_loss_ortho.item()
+            running_g_ortho_loss += g_loss_ortho.item()
         
-        # 打印信息
-        print(f"Epoch [{epoch+1}/{num_epochs}], D Loss: {d_loss.item():.4f}, G Loss: {g_loss.item():.4f}, Orthogonal Loss: {ortho_loss.item():.4f}")
-        
+        # 计算每个epoch的平均损失
+        num_batches = len(dataloader)
+        avg_d_hinge_loss_epoch = running_d_hinge_loss / num_batches
+        avg_g_hinge_loss_epoch = running_g_hinge_loss / num_batches
+        avg_d_ortho_loss_epoch = running_d_ortho_loss / num_batches
+        avg_g_ortho_loss_epoch = running_g_ortho_loss / num_batches
+        avg_total_ortho_loss_epoch = avg_d_ortho_loss_epoch + avg_g_ortho_loss_epoch
+
+        # 每个epoch结束后保存平均损失
+        epoch_avg_d_hinge_losses.append(avg_d_hinge_loss_epoch)
+        epoch_avg_g_hinge_losses.append(avg_g_hinge_loss_epoch)
+        epoch_avg_ortho_losses.append(avg_total_ortho_loss_epoch)
+
+        # 打印每个epoch的平均损失
+        print(f"Epoch [{epoch+1}/{num_epochs}] Completed: "
+              f"Avg D Hinge Loss: {avg_d_hinge_loss_epoch:.4f}, "
+              f"Avg G Hinge Loss: {avg_g_hinge_loss_epoch:.4f}, "
+              f"Avg Ortho Loss (D+G): {avg_total_ortho_loss_epoch:.4f}")
+
         # 保存模型
         if (epoch + 1) % 10 == 0:
             save_checkpoint(generator, discriminator, ema_generator, optimizer_g, optimizer_d, epoch + 1)
-            sample_5x5_images(generator, ema_generator, epoch + 1, device=device)  # 添加device参数
+            sample_5x5_images(generator, ema_generator, epoch + 1, num_classes=num_classes, device=device)
+    
+    return epoch_avg_g_hinge_losses, epoch_avg_d_hinge_losses, epoch_avg_ortho_losses
+
 
 
 
