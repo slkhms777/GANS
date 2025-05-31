@@ -1,17 +1,25 @@
 import torch
 import torch.nn as nn
 from mini_biggan import MiniBigGANGenerator, MiniBigGANDiscriminator
-from .utils import get_animalfaces_dataloader
-from .train import train_miniBigGAN
+from utils import get_animalfaces_dataloader, save_and_plot_losses
+from train import train_miniBigGAN
 
 
 def main():
+    # 创建必要的目录
+    from utils import data_dir, log_dir, checkpoints_dir, visual_dir
+    import os
+    os.makedirs(data_dir, exist_ok=True)
+    os.makedirs(log_dir, exist_ok=True)
+    os.makedirs(checkpoints_dir, exist_ok=True)
+    os.makedirs(visual_dir, exist_ok=True)
+
     # 检测可用的GPU数量
     num_gpus = torch.cuda.device_count()
     print(f"检测到 {num_gpus} 张GPU")
     
-    num_epochs = 300
-    batch_size = 128 * num_gpus  # 根据GPU数量调整batch size
+    num_epochs = 500
+    batch_size = 512 * num_gpus  # 根据GPU数量调整batch size
     image_size = 512
     num_classes = 3
     num_workers = 8 * num_gpus  # 增加数据加载线程数
@@ -49,6 +57,9 @@ def main():
         hierarchical_z=True
     ).to(device)
 
+    # 初始化EMA生成器为主生成器的副本
+    ema_generator.load_state_dict(generator.state_dict())
+
     # 判别器
     discriminator = MiniBigGANDiscriminator(
         channels=img_channels,
@@ -64,7 +75,7 @@ def main():
         discriminator = nn.DataParallel(discriminator)
     
     # 训练
-    train_miniBigGAN(
+    g_losses, d_losses, ortho_losses = train_miniBigGAN(
         generator=generator,
         discriminator=discriminator,
         ema_generator=ema_generator,
@@ -75,6 +86,12 @@ def main():
         num_gpus=num_gpus,  # 传递GPU数量信息
     )
 
+    # 绘制损失曲线
+    save_and_plot_losses(
+        g_hinge_losses=g_losses,
+        d_hinge_losses=d_losses,
+        ortho_losses=ortho_losses,
+    )
     
 
 if __name__ == "__main__":

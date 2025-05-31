@@ -1,6 +1,9 @@
 import torch
 import torchvision
-import torchvision.transforms as transforms
+import torch.nn as nn
+import torch.nn.functional as F
+
+from torchvision import models, transforms
 import torchvision.utils as vutils
 from torch.utils.data import Dataset, DataLoader
 from torchvision import datasets, transforms
@@ -8,10 +11,9 @@ import csv
 import matplotlib.pyplot as plt
 import os
 import numpy as np
-import matplotlib.pyplot as plt
-import torchvision.utils as vutils
-
-
+from scipy import linalg
+from pytorch_fid import fid_score
+from pytorch_fid.inception import InceptionV3
 import cv2
 
 # 全局路径配置
@@ -189,3 +191,304 @@ def save_and_plot_losses(g_hinge_losses, d_hinge_losses, ortho_losses, save_dir=
     plt.savefig(plot_file_path)
     plt.close() # 关闭图像，防止在Jupyter等环境中重复显示
     print(f"损失曲线图已保存到: {plot_file_path}")
+
+
+
+class ISEvaluator:
+    """Inception Score评估器"""
+    def __init__(self, device='cuda', splits=10):
+        self.device = device
+        self.splits = splits
+        
+        # 加载预训练的Inception模型
+        self.inception_model = models.inception_v3(pretrained=True, transform_input=False)
+        self.inception_model.fc = nn.Linear(self.inception_model.fc.in_features, 1000)  # 保持1000类输出
+        self.inception_model.eval()
+        self.inception_model.to(device)
+        
+        # 图像预处理
+        self.transform = transforms.Compose([
+            transforms.Resize((299, 299)),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                               std=[0.229, 0.224, 0.225])
+        ])
+    
+    def get_inception_probs(self, images):
+        """获取Inception预测概率"""
+        # images: [N, C, H, W], 范围[0, 1]
+        if images.shape[1] == 3 and images.shape[2] != 299:
+            images = F.interpolate(images, size=(299, 299), mode='bilinear', align_corners=False)
+        
+        # 标准化
+        images = self.transform(images)
+        
+        with torch.no_grad():
+            logits = self.inception_model(images)
+            probs = F.softmax(logits, dim=1)
+        
+        return probs
+    
+    def calculate_is(self, images):
+        """计算Inception Score"""
+        # images: [N, C, H, W], 范围[0, 1]
+        N = images.shape[0]
+        
+        # 获取预测概率
+        probs = self.get_inception_probs(images)
+        
+        # 分割计算
+        split_size = N // self.splits
+        scores = []
+        
+        for i in range(self.splits):
+            start_idx = i * split_size
+            end_idx = (i + 1) * split_size if i < self.splits - 1 else N
+            
+            split_probs = probs[start_idx:end_idx]
+            
+            # 计算KL散度
+            marginal = torch.mean(split_probs, dim=0, keepdim=True)
+            kl_div = torch.sum(split_probs * (torch.log(split_probs + 1e-8) - torch.log(marginal + 1e-8)), dim=1)
+            scores.append(torch.exp(torch.mean(kl_div)).cpu().item())
+        
+        return np.mean(scores), np.std(scores)
+    
+
+class FIDEvaluator:
+    """FID Score评估器"""
+    def __init__(self, device='cuda'):
+        self.device = device
+        
+        # 初始化Inception模型用于特征提取
+        block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[2048]
+        self.inception_model = InceptionV3([block_idx]).to(device)
+        self.inception_model.eval()
+    
+    def get_inception_features(self, images):
+        """提取Inception特征"""
+        # images: [N, C, H, W], 范围[0, 1]
+        if images.shape[2] != 299 or images.shape[3] != 299:
+            images = F.interpolate(images, size=(299, 299), mode='bilinear', align_corners=False)
+        
+        # 转换到[-1, 1]范围
+        images = images * 2.0 - 1.0
+        
+        with torch.no_grad():
+            features = self.inception_model(images)[0]
+            features = features.squeeze(-1).squeeze(-1)
+        
+        return features.cpu().numpy()
+    
+    def calculate_fid(self, real_images, fake_images):
+        """计算FID分数"""
+        # 提取特征
+        real_features = self.get_inception_features(real_images)
+        fake_features = self.get_inception_features(fake_images)
+        
+        # 计算统计量
+        mu_real, sigma_real = np.mean(real_features, axis=0), np.cov(real_features, rowvar=False)
+        mu_fake, sigma_fake = np.mean(fake_features, axis=0), np.cov(fake_features, rowvar=False)
+        
+        # 计算FID
+        diff = mu_real - mu_fake
+        covmean, _ = linalg.sqrtm(sigma_real.dot(sigma_fake), disp=False)
+        
+        if np.iscomplexobj(covmean):
+            covmean = covmean.real
+        
+        fid = diff.dot(diff) + np.trace(sigma_real) + np.trace(sigma_fake) - 2 * np.trace(covmean)
+        return fid
+    
+def save_and_plot_evaluation_scores(fid_scores, is_scores, ema_fid_scores, ema_is_scores, 
+                                   evaluation_epochs, save_dir=visual_dir):
+    """
+    保存FID和IS评分到CSV文件并绘制评分曲线图。
+
+    参数:
+    fid_scores (list): 每个评估epoch的FID分数列表
+    is_scores (list): 每个评估epoch的IS分数列表 (mean, std)
+    ema_fid_scores (list): 每个评估epoch的EMA FID分数列表
+    ema_is_scores (list): 每个评估epoch的EMA IS分数列表 (mean, std)
+    evaluation_epochs (list): 进行评估的epoch列表
+    save_dir (str): 保存CSV和图像的目录
+    """
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    # 确保所有列表长度一致
+    assert len(fid_scores) == len(is_scores) == len(ema_fid_scores) == len(ema_is_scores) == len(evaluation_epochs), \
+        "所有评分列表长度必须一致"
+
+    # 1. 保存评分到CSV文件
+    csv_file_path = os.path.join(save_dir, 'evaluation_scores.csv')
+    with open(csv_file_path, 'w', newline='') as csvfile:
+        fieldnames = ['Epoch', 'FID', 'IS_Mean', 'IS_Std', 'EMA_FID', 'EMA_IS_Mean', 'EMA_IS_Std']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for i in range(len(evaluation_epochs)):
+            writer.writerow({
+                'Epoch': evaluation_epochs[i],
+                'FID': fid_scores[i],
+                'IS_Mean': is_scores[i][0],  # IS分数的均值
+                'IS_Std': is_scores[i][1],   # IS分数的标准差
+                'EMA_FID': ema_fid_scores[i],
+                'EMA_IS_Mean': ema_is_scores[i][0],
+                'EMA_IS_Std': ema_is_scores[i][1]
+            })
+    print(f"评估分数已保存到: {csv_file_path}")
+
+    # 2. 绘制并保存评分曲线图
+    plt.figure(figsize=(15, 10))
+
+    # 提取IS均值和标准差
+    is_means = [score[0] for score in is_scores]
+    is_stds = [score[1] for score in is_scores]
+    ema_is_means = [score[0] for score in ema_is_scores]
+    ema_is_stds = [score[1] for score in ema_is_scores]
+
+    # FID分数图 (越低越好)
+    plt.subplot(2, 2, 1)
+    plt.plot(evaluation_epochs, fid_scores, 'bo-', label='Generator FID', linewidth=2, markersize=6)
+    plt.plot(evaluation_epochs, ema_fid_scores, 'ro-', label='EMA Generator FID', linewidth=2, markersize=6)
+    plt.xlabel('Epoch')
+    plt.ylabel('FID Score')
+    plt.title('FID Scores Over Training (Lower is Better)')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    # IS分数图 (越高越好)
+    plt.subplot(2, 2, 2)
+    plt.errorbar(evaluation_epochs, is_means, yerr=is_stds, fmt='bo-', 
+                label='Generator IS', linewidth=2, markersize=6, capsize=5)
+    plt.errorbar(evaluation_epochs, ema_is_means, yerr=ema_is_stds, fmt='ro-', 
+                label='EMA Generator IS', linewidth=2, markersize=6, capsize=5)
+    plt.xlabel('Epoch')
+    plt.ylabel('IS Score')
+    plt.title('IS Scores Over Training (Higher is Better)')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    # 对比图1: FID对比
+    plt.subplot(2, 2, 3)
+    width = 0.35
+    x = np.arange(len(evaluation_epochs))
+    plt.bar(x - width/2, fid_scores, width, label='Generator FID', alpha=0.8)
+    plt.bar(x + width/2, ema_fid_scores, width, label='EMA Generator FID', alpha=0.8)
+    plt.xlabel('Evaluation Points')
+    plt.ylabel('FID Score')
+    plt.title('FID Comparison: Generator vs EMA Generator')
+    plt.xticks(x, [f'E{ep}' for ep in evaluation_epochs])
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    # 对比图2: IS对比 (只显示均值)
+    plt.subplot(2, 2, 4)
+    plt.bar(x - width/2, is_means, width, label='Generator IS', alpha=0.8)
+    plt.bar(x + width/2, ema_is_means, width, label='EMA Generator IS', alpha=0.8)
+    plt.xlabel('Evaluation Points')
+    plt.ylabel('IS Score')
+    plt.title('IS Comparison: Generator vs EMA Generator')
+    plt.xticks(x, [f'E{ep}' for ep in evaluation_epochs])
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plot_file_path = os.path.join(save_dir, 'evaluation_curves.png')
+    plt.savefig(plot_file_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"评估曲线图已保存到: {plot_file_path}")
+
+    # 3. 生成评估总结报告
+    summary_file_path = os.path.join(save_dir, 'evaluation_summary.txt')
+    with open(summary_file_path, 'w') as f:
+        f.write("BigGAN 评估总结报告\n")
+        f.write("=" * 40 + "\n\n")
+        
+        f.write(f"评估间隔: 每 {evaluation_epochs[1] - evaluation_epochs[0]} 个epoch\n")
+        f.write(f"评估轮次: {len(evaluation_epochs)} 次\n")
+        f.write(f"评估epoch: {evaluation_epochs}\n\n")
+        
+        # 最佳分数
+        best_fid_idx = np.argmin(fid_scores)
+        best_ema_fid_idx = np.argmin(ema_fid_scores)
+        best_is_idx = np.argmax(is_means)
+        best_ema_is_idx = np.argmax(ema_is_means)
+        
+        f.write("最佳分数:\n")
+        f.write("-" * 20 + "\n")
+        f.write(f"最佳 FID: {fid_scores[best_fid_idx]:.3f} (Epoch {evaluation_epochs[best_fid_idx]})\n")
+        f.write(f"最佳 EMA FID: {ema_fid_scores[best_ema_fid_idx]:.3f} (Epoch {evaluation_epochs[best_ema_fid_idx]})\n")
+        f.write(f"最佳 IS: {is_means[best_is_idx]:.3f}±{is_stds[best_is_idx]:.3f} (Epoch {evaluation_epochs[best_is_idx]})\n")
+        f.write(f"最佳 EMA IS: {ema_is_means[best_ema_is_idx]:.3f}±{ema_is_stds[best_ema_is_idx]:.3f} (Epoch {evaluation_epochs[best_ema_is_idx]})\n\n")
+        
+        # 最终分数
+        f.write("最终分数:\n")
+        f.write("-" * 20 + "\n")
+        f.write(f"最终 FID: {fid_scores[-1]:.3f}\n")
+        f.write(f"最终 EMA FID: {ema_fid_scores[-1]:.3f}\n")
+        f.write(f"最终 IS: {is_means[-1]:.3f}±{is_stds[-1]:.3f}\n")
+        f.write(f"最终 EMA IS: {ema_is_means[-1]:.3f}±{ema_is_stds[-1]:.3f}\n\n")
+        
+        # 改善趋势
+        fid_improvement = fid_scores[0] - fid_scores[-1]
+        ema_fid_improvement = ema_fid_scores[0] - ema_fid_scores[-1]
+        is_improvement = is_means[-1] - is_means[0]
+        ema_is_improvement = ema_is_means[-1] - ema_is_means[0]
+        
+        f.write("训练改善:\n")
+        f.write("-" * 20 + "\n")
+        f.write(f"FID 改善: {fid_improvement:.3f} ({'提升' if fid_improvement > 0 else '下降'})\n")
+        f.write(f"EMA FID 改善: {ema_fid_improvement:.3f} ({'提升' if ema_fid_improvement > 0 else '下降'})\n")
+        f.write(f"IS 改善: {is_improvement:.3f} ({'提升' if is_improvement > 0 else '下降'})\n")
+        f.write(f"EMA IS 改善: {ema_is_improvement:.3f} ({'提升' if ema_is_improvement > 0 else '下降'})\n")
+
+    print(f"评估总结报告已保存到: {summary_file_path}")
+
+
+def generate_samples_for_evaluation(generator, num_samples, num_classes, z_dim, device, batch_size=100):
+    """生成用于评估的样本"""
+    generator.eval()
+    all_samples = []
+    
+    with torch.no_grad():
+        for i in range(0, num_samples, batch_size):
+            current_batch_size = min(batch_size, num_samples - i)
+            
+            # 随机生成噪声和标签
+            z = torch.randn(current_batch_size, z_dim, device=device)
+            y = torch.randint(0, num_classes, (current_batch_size,), device=device)
+            
+            # 生成图像
+            fake_images = generator(z, y)
+            
+            # 反归一化到[0, 1]
+            fake_images = (fake_images + 1.0) / 2.0
+            fake_images = torch.clamp(fake_images, 0, 1)
+            
+            all_samples.append(fake_images.cpu())
+    
+    generator.train()  # 恢复训练模式
+    return torch.cat(all_samples, dim=0)
+
+
+def get_real_samples_for_evaluation(dataloader, num_samples, device):
+    """从数据集中获取真实样本"""
+    all_real_images = []
+    count = 0
+    
+    for images, _ in dataloader:
+        if count >= num_samples:
+            break
+            
+        batch_size = images.shape[0]
+        take = min(batch_size, num_samples - count)
+        
+        # 反归一化到[0, 1]
+        images = (images + 1.0) / 2.0
+        images = torch.clamp(images, 0, 1)
+        
+        all_real_images.append(images[:take])
+        count += take
+    
+    return torch.cat(all_real_images, dim=0)
