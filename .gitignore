@@ -12,3 +12,6 @@ visual/*
 
 BigGAN/data/*
 !BigGAN/data/.gitkeep
+
+report/*
+!report/.gitkeep
