@@ -1,0 +1,255 @@
+使用 2 张GPU进行训练
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Epoch [1/200] Loss C: -0.7360, Loss G: -24.5291, Wasserstein: 0.7320
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [2/200] Loss C: -0.3763, Loss G: -11.2647, Wasserstein: 0.3639
+Epoch [3/200] Loss C: -0.3575, Loss G: -7.1034, Wasserstein: 0.3526
+Epoch [4/200] Loss C: -0.3365, Loss G: -6.4895, Wasserstein: 0.3303
+Epoch [5/200] Loss C: -0.3112, Loss G: -5.1281, Wasserstein: 0.3053
+Epoch [6/200] Loss C: -0.2943, Loss G: -4.5437, Wasserstein: 0.2872
+Epoch [7/200] Loss C: -0.2982, Loss G: -4.0302, Wasserstein: 0.2929
+Epoch [8/200] Loss C: -0.2950, Loss G: -3.7466, Wasserstein: 0.2913
+Epoch [9/200] Loss C: -0.2793, Loss G: -3.4326, Wasserstein: 0.2730
+Epoch [10/200] Loss C: -0.3998, Loss G: -1.1008, Wasserstein: 0.3971
+Epoch [11/200] Loss C: -0.4683, Loss G: -0.0993, Wasserstein: 0.4667
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [12/200] Loss C: -0.4627, Loss G: 0.0230, Wasserstein: 0.4586
+Epoch [13/200] Loss C: -0.4469, Loss G: 0.1254, Wasserstein: 0.4435
+Epoch [14/200] Loss C: -0.4321, Loss G: 0.1072, Wasserstein: 0.4252
+Epoch [15/200] Loss C: -0.4134, Loss G: 0.1099, Wasserstein: 0.4074
+Epoch [16/200] Loss C: -0.3952, Loss G: 0.0732, Wasserstein: 0.3905
+Epoch [17/200] Loss C: -0.3826, Loss G: 0.0424, Wasserstein: 0.3760
+Epoch [18/200] Loss C: -0.3714, Loss G: 0.0749, Wasserstein: 0.3619
+Epoch [19/200] Loss C: -0.3565, Loss G: 0.1012, Wasserstein: 0.3490
+Epoch [20/200] Loss C: -0.3482, Loss G: 0.0162, Wasserstein: 0.3378
+Epoch [21/200] Loss C: -0.3357, Loss G: 0.1034, Wasserstein: 0.3312
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [22/200] Loss C: -0.3287, Loss G: -0.0376, Wasserstein: 0.3211
+Epoch [23/200] Loss C: -0.3156, Loss G: -0.0780, Wasserstein: 0.3133
+Epoch [24/200] Loss C: -0.3027, Loss G: -0.1355, Wasserstein: 0.2961
+Epoch [25/200] Loss C: -0.2872, Loss G: -0.0944, Wasserstein: 0.2844
+Epoch [26/200] Loss C: -0.2850, Loss G: -0.2413, Wasserstein: 0.2808
+Epoch [27/200] Loss C: -0.2755, Loss G: -0.0378, Wasserstein: 0.2727
+Epoch [28/200] Loss C: -0.2648, Loss G: -0.1626, Wasserstein: 0.2604
+Epoch [29/200] Loss C: -0.2637, Loss G: -0.0078, Wasserstein: 0.2579
+Epoch [30/200] Loss C: -0.2508, Loss G: -0.2343, Wasserstein: 0.2462
+Epoch [31/200] Loss C: -0.2445, Loss G: -0.1252, Wasserstein: 0.2359
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [32/200] Loss C: -0.2277, Loss G: -0.2980, Wasserstein: 0.2180
+Epoch [33/200] Loss C: -0.2208, Loss G: -0.2561, Wasserstein: 0.2146
+Epoch [34/200] Loss C: -0.2090, Loss G: -0.0222, Wasserstein: 0.2082
+Epoch [35/200] Loss C: -0.1910, Loss G: -0.2031, Wasserstein: 0.1845
+Epoch [36/200] Loss C: -0.1811, Loss G: -0.1046, Wasserstein: 0.1772
+Epoch [37/200] Loss C: -0.1762, Loss G: -0.2195, Wasserstein: 0.1668
+Epoch [38/200] Loss C: -0.1706, Loss G: 0.0448, Wasserstein: 0.1685
+Epoch [39/200] Loss C: -0.1546, Loss G: -0.2304, Wasserstein: 0.1589
+Epoch [40/200] Loss C: -0.1538, Loss G: -0.0898, Wasserstein: 0.1541
+Epoch [41/200] Loss C: -0.1452, Loss G: -0.0130, Wasserstein: 0.1434
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [42/200] Loss C: -0.1298, Loss G: -0.0697, Wasserstein: 0.1310
+Epoch [43/200] Loss C: -0.1317, Loss G: -0.2688, Wasserstein: 0.1325
+Epoch [44/200] Loss C: -0.1254, Loss G: -0.4881, Wasserstein: 0.1177
+Epoch [45/200] Loss C: -0.1167, Loss G: 0.6225, Wasserstein: 0.1181
+Epoch [46/200] Loss C: -0.1210, Loss G: -0.6565, Wasserstein: 0.1217
+Epoch [47/200] Loss C: -0.1097, Loss G: 0.3192, Wasserstein: 0.1073
+Epoch [48/200] Loss C: -0.1094, Loss G: -0.1289, Wasserstein: 0.1084
+Epoch [49/200] Loss C: -0.1099, Loss G: 0.2613, Wasserstein: 0.1059
+Epoch [50/200] Loss C: -0.1023, Loss G: 0.5761, Wasserstein: 0.0923
+Epoch [51/200] Loss C: -0.0791, Loss G: 0.1264, Wasserstein: 0.0810
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [52/200] Loss C: -0.0978, Loss G: -0.3380, Wasserstein: 0.0968
+Epoch [53/200] Loss C: -0.1095, Loss G: -0.3279, Wasserstein: 0.1096
+Epoch [54/200] Loss C: -0.1166, Loss G: -0.3453, Wasserstein: 0.1190
+Epoch [55/200] Loss C: -0.1215, Loss G: -0.1332, Wasserstein: 0.1214
+Epoch [56/200] Loss C: -0.1246, Loss G: -0.2886, Wasserstein: 0.1214
+Epoch [57/200] Loss C: -0.1308, Loss G: -0.7978, Wasserstein: 0.1310
+Epoch [58/200] Loss C: -0.1337, Loss G: -0.6471, Wasserstein: 0.1343
+Epoch [59/200] Loss C: -0.1355, Loss G: -0.4714, Wasserstein: 0.1383
+Epoch [60/200] Loss C: -0.1348, Loss G: -0.2032, Wasserstein: 0.1355
+Epoch [61/200] Loss C: -0.1402, Loss G: -0.1687, Wasserstein: 0.1360
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [62/200] Loss C: -0.1403, Loss G: 0.0245, Wasserstein: 0.1390
+Epoch [63/200] Loss C: -0.1381, Loss G: -0.5252, Wasserstein: 0.1409
+Epoch [64/200] Loss C: -0.1390, Loss G: -0.4498, Wasserstein: 0.1375
+Epoch [65/200] Loss C: -0.1407, Loss G: -0.1167, Wasserstein: 0.1379
+Epoch [66/200] Loss C: -0.1438, Loss G: 0.5856, Wasserstein: 0.1443
+Epoch [67/200] Loss C: -0.1450, Loss G: 1.0270, Wasserstein: 0.1459
+Epoch [68/200] Loss C: -0.1459, Loss G: 1.2581, Wasserstein: 0.1479
+Epoch [69/200] Loss C: -0.1534, Loss G: 1.4384, Wasserstein: 0.1525
+Epoch [70/200] Loss C: -0.1579, Loss G: 1.5128, Wasserstein: 0.1584
+Epoch [71/200] Loss C: -0.1545, Loss G: 1.5839, Wasserstein: 0.1531
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [72/200] Loss C: -0.1595, Loss G: 1.4524, Wasserstein: 0.1594
+Epoch [73/200] Loss C: -0.1614, Loss G: 1.3337, Wasserstein: 0.1610
+Epoch [74/200] Loss C: -0.1613, Loss G: 1.2618, Wasserstein: 0.1614
+Epoch [75/200] Loss C: -0.1635, Loss G: 1.2264, Wasserstein: 0.1622
+Epoch [76/200] Loss C: -0.1630, Loss G: 1.3013, Wasserstein: 0.1608
+Epoch [77/200] Loss C: -0.1582, Loss G: 1.2456, Wasserstein: 0.1587
+Epoch [78/200] Loss C: -0.1543, Loss G: 1.1095, Wasserstein: 0.1552
+Epoch [79/200] Loss C: -0.1568, Loss G: 1.1688, Wasserstein: 0.1579
+Epoch [80/200] Loss C: -0.1579, Loss G: 1.1748, Wasserstein: 0.1565
+Epoch [81/200] Loss C: -0.1553, Loss G: 1.2278, Wasserstein: 0.1569
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [82/200] Loss C: -0.1517, Loss G: 1.2400, Wasserstein: 0.1522
+Epoch [83/200] Loss C: -0.1502, Loss G: 1.1397, Wasserstein: 0.1494
+Epoch [84/200] Loss C: -0.1544, Loss G: 1.2718, Wasserstein: 0.1524
+Epoch [85/200] Loss C: -0.1526, Loss G: 1.3290, Wasserstein: 0.1534
+Epoch [86/200] Loss C: -0.1539, Loss G: 1.3873, Wasserstein: 0.1542
+Epoch [87/200] Loss C: -0.1536, Loss G: 1.2854, Wasserstein: 0.1527
+Epoch [88/200] Loss C: -0.1489, Loss G: 1.2492, Wasserstein: 0.1505
+Epoch [89/200] Loss C: -0.1494, Loss G: 1.0846, Wasserstein: 0.1497
+Epoch [90/200] Loss C: -0.1445, Loss G: 1.2757, Wasserstein: 0.1441
+Epoch [91/200] Loss C: -0.1472, Loss G: 1.3513, Wasserstein: 0.1458
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [92/200] Loss C: -0.1460, Loss G: 1.4067, Wasserstein: 0.1460
+Epoch [93/200] Loss C: -0.1470, Loss G: 1.4550, Wasserstein: 0.1502
+Epoch [94/200] Loss C: -0.1481, Loss G: 1.4567, Wasserstein: 0.1468
+Epoch [95/200] Loss C: -0.1471, Loss G: 1.3838, Wasserstein: 0.1472
+Epoch [96/200] Loss C: -0.1452, Loss G: 1.3333, Wasserstein: 0.1438
+Epoch [97/200] Loss C: -0.1420, Loss G: 1.3558, Wasserstein: 0.1418
+Epoch [98/200] Loss C: -0.1374, Loss G: 1.3586, Wasserstein: 0.1371
+Epoch [99/200] Loss C: -0.1366, Loss G: 1.2788, Wasserstein: 0.1370
+Epoch [100/200] Loss C: -0.1330, Loss G: 1.1831, Wasserstein: 0.1330
+Epoch [101/200] Loss C: -0.1145, Loss G: 1.3243, Wasserstein: 0.1144
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [102/200] Loss C: -0.1183, Loss G: 1.3517, Wasserstein: 0.1185
+Epoch [103/200] Loss C: -0.1190, Loss G: 1.2760, Wasserstein: 0.1181
+Epoch [104/200] Loss C: -0.1187, Loss G: 1.3310, Wasserstein: 0.1178
+Epoch [105/200] Loss C: -0.1181, Loss G: 1.3574, Wasserstein: 0.1177
+Epoch [106/200] Loss C: -0.1189, Loss G: 1.4275, Wasserstein: 0.1177
+Epoch [107/200] Loss C: -0.1183, Loss G: 1.3819, Wasserstein: 0.1180
+Epoch [108/200] Loss C: -0.1191, Loss G: 1.3748, Wasserstein: 0.1185
+Epoch [109/200] Loss C: -0.1186, Loss G: 1.4255, Wasserstein: 0.1191
+Epoch [110/200] Loss C: -0.1183, Loss G: 1.4472, Wasserstein: 0.1178
+Epoch [111/200] Loss C: -0.1192, Loss G: 1.4554, Wasserstein: 0.1186
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [112/200] Loss C: -0.1191, Loss G: 1.4077, Wasserstein: 0.1201
+Epoch [113/200] Loss C: -0.1191, Loss G: 1.3994, Wasserstein: 0.1185
+Epoch [114/200] Loss C: -0.1191, Loss G: 1.4512, Wasserstein: 0.1188
+Epoch [115/200] Loss C: -0.1191, Loss G: 1.3770, Wasserstein: 0.1188
+Epoch [116/200] Loss C: -0.1190, Loss G: 1.4041, Wasserstein: 0.1183
+Epoch [117/200] Loss C: -0.1188, Loss G: 1.3774, Wasserstein: 0.1192
+Epoch [118/200] Loss C: -0.1199, Loss G: 1.3538, Wasserstein: 0.1188
+Epoch [119/200] Loss C: -0.1197, Loss G: 1.3054, Wasserstein: 0.1202
+Epoch [120/200] Loss C: -0.1196, Loss G: 1.3403, Wasserstein: 0.1193
+Epoch [121/200] Loss C: -0.1190, Loss G: 1.2669, Wasserstein: 0.1199
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [122/200] Loss C: -0.1193, Loss G: 1.2875, Wasserstein: 0.1187
+Epoch [123/200] Loss C: -0.1190, Loss G: 1.2391, Wasserstein: 0.1185
+Epoch [124/200] Loss C: -0.1189, Loss G: 1.3218, Wasserstein: 0.1175
+Epoch [125/200] Loss C: -0.1180, Loss G: 1.2333, Wasserstein: 0.1171
+Epoch [126/200] Loss C: -0.1181, Loss G: 1.2415, Wasserstein: 0.1174
+Epoch [127/200] Loss C: -0.1175, Loss G: 1.2001, Wasserstein: 0.1180
+Epoch [128/200] Loss C: -0.1173, Loss G: 1.1685, Wasserstein: 0.1174
+Epoch [129/200] Loss C: -0.1172, Loss G: 1.1695, Wasserstein: 0.1173
+Epoch [130/200] Loss C: -0.1169, Loss G: 1.1901, Wasserstein: 0.1172
+Epoch [131/200] Loss C: -0.1174, Loss G: 1.1800, Wasserstein: 0.1169
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [132/200] Loss C: -0.1172, Loss G: 1.2130, Wasserstein: 0.1183
+Epoch [133/200] Loss C: -0.1164, Loss G: 1.2052, Wasserstein: 0.1168
+Epoch [134/200] Loss C: -0.1161, Loss G: 1.1580, Wasserstein: 0.1149
+Epoch [135/200] Loss C: -0.1173, Loss G: 1.1673, Wasserstein: 0.1166
+Epoch [136/200] Loss C: -0.1154, Loss G: 1.1338, Wasserstein: 0.1151
+Epoch [137/200] Loss C: -0.1152, Loss G: 1.1155, Wasserstein: 0.1153
+Epoch [138/200] Loss C: -0.1163, Loss G: 1.0048, Wasserstein: 0.1162
+Epoch [139/200] Loss C: -0.1161, Loss G: 1.1406, Wasserstein: 0.1163
+Epoch [140/200] Loss C: -0.1151, Loss G: 1.1284, Wasserstein: 0.1154
+Epoch [141/200] Loss C: -0.1154, Loss G: 1.0151, Wasserstein: 0.1167
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [142/200] Loss C: -0.1154, Loss G: 0.8778, Wasserstein: 0.1154
+Epoch [143/200] Loss C: -0.1158, Loss G: 1.0215, Wasserstein: 0.1167
+Epoch [144/200] Loss C: -0.1164, Loss G: 1.0482, Wasserstein: 0.1156
+Epoch [145/200] Loss C: -0.1160, Loss G: 0.9542, Wasserstein: 0.1160
+Epoch [146/200] Loss C: -0.1170, Loss G: 0.9208, Wasserstein: 0.1172
+Epoch [147/200] Loss C: -0.1170, Loss G: 0.8728, Wasserstein: 0.1171
+Epoch [148/200] Loss C: -0.1170, Loss G: 0.8182, Wasserstein: 0.1167
+Epoch [149/200] Loss C: -0.1170, Loss G: 0.7749, Wasserstein: 0.1174
+Epoch [150/200] Loss C: -0.1178, Loss G: 0.7259, Wasserstein: 0.1172
+Epoch [151/200] Loss C: -0.1072, Loss G: 0.8094, Wasserstein: 0.1064
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [152/200] Loss C: -0.1080, Loss G: 0.7877, Wasserstein: 0.1079
+Epoch [153/200] Loss C: -0.1074, Loss G: 0.6379, Wasserstein: 0.1081
+Epoch [154/200] Loss C: -0.1094, Loss G: 0.5842, Wasserstein: 0.1085
+Epoch [155/200] Loss C: -0.1089, Loss G: 0.7180, Wasserstein: 0.1086
+Epoch [156/200] Loss C: -0.1088, Loss G: 0.6744, Wasserstein: 0.1084
+Epoch [157/200] Loss C: -0.1089, Loss G: 0.6525, Wasserstein: 0.1083
+Epoch [158/200] Loss C: -0.1083, Loss G: 0.5921, Wasserstein: 0.1087
+Epoch [159/200] Loss C: -0.1081, Loss G: 0.5838, Wasserstein: 0.1081
+Epoch [160/200] Loss C: -0.1089, Loss G: 0.6076, Wasserstein: 0.1089
+Epoch [161/200] Loss C: -0.1096, Loss G: 0.5611, Wasserstein: 0.1098
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [162/200] Loss C: -0.1086, Loss G: 0.5209, Wasserstein: 0.1089
+Epoch [163/200] Loss C: -0.1082, Loss G: -0.7077, Wasserstein: 0.1073
+Epoch [164/200] Loss C: -0.1080, Loss G: -2.2554, Wasserstein: 0.1077
+Epoch [165/200] Loss C: -0.1081, Loss G: -2.5174, Wasserstein: 0.1083
+Epoch [166/200] Loss C: -0.1093, Loss G: -2.5810, Wasserstein: 0.1085
+Epoch [167/200] Loss C: -0.1087, Loss G: -2.7075, Wasserstein: 0.1092
+Epoch [168/200] Loss C: -0.1109, Loss G: -2.9191, Wasserstein: 0.1099
+Epoch [169/200] Loss C: -0.1109, Loss G: -2.8132, Wasserstein: 0.1119
+Epoch [170/200] Loss C: -0.1117, Loss G: -2.8032, Wasserstein: 0.1131
+Epoch [171/200] Loss C: -0.1121, Loss G: -2.7347, Wasserstein: 0.1121
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [172/200] Loss C: -0.1122, Loss G: -2.7315, Wasserstein: 0.1125
+Epoch [173/200] Loss C: -0.1136, Loss G: -2.7453, Wasserstein: 0.1139
+Epoch [174/200] Loss C: -0.1135, Loss G: -2.6810, Wasserstein: 0.1133
+Epoch [175/200] Loss C: -0.1139, Loss G: -2.6618, Wasserstein: 0.1143
+Epoch [176/200] Loss C: -0.1139, Loss G: -2.5561, Wasserstein: 0.1142
+Epoch [177/200] Loss C: -0.1153, Loss G: -2.5923, Wasserstein: 0.1150
+Epoch [178/200] Loss C: -0.1151, Loss G: -2.6022, Wasserstein: 0.1145
+Epoch [179/200] Loss C: -0.1151, Loss G: -2.5970, Wasserstein: 0.1151
+Epoch [180/200] Loss C: -0.1155, Loss G: -2.5829, Wasserstein: 0.1159
+Epoch [181/200] Loss C: -0.1157, Loss G: -2.5481, Wasserstein: 0.1154
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [182/200] Loss C: -0.1158, Loss G: -2.5455, Wasserstein: 0.1151
+Epoch [183/200] Loss C: -0.1167, Loss G: -2.5711, Wasserstein: 0.1160
+Epoch [184/200] Loss C: -0.1167, Loss G: -2.5769, Wasserstein: 0.1165
+Epoch [185/200] Loss C: -0.1165, Loss G: -2.5613, Wasserstein: 0.1166
+Epoch [186/200] Loss C: -0.1160, Loss G: -2.5891, Wasserstein: 0.1156
+Epoch [187/200] Loss C: -0.1165, Loss G: -2.6106, Wasserstein: 0.1164
+Epoch [188/200] Loss C: -0.1166, Loss G: -2.5778, Wasserstein: 0.1163
+Epoch [189/200] Loss C: -0.1161, Loss G: -2.6096, Wasserstein: 0.1169
+Epoch [190/200] Loss C: -0.1166, Loss G: -2.5964, Wasserstein: 0.1174
+Epoch [191/200] Loss C: -0.1160, Loss G: -2.6094, Wasserstein: 0.1162
+GPU 0 内存使用: 0.03GB
+GPU 1 内存使用: 0.02GB
+Epoch [192/200] Loss C: -0.1167, Loss G: -2.5816, Wasserstein: 0.1166
+Epoch [193/200] Loss C: -0.1177, Loss G: -2.5835, Wasserstein: 0.1164
+Epoch [194/200] Loss C: -0.1159, Loss G: -2.5732, Wasserstein: 0.1159
+Epoch [195/200] Loss C: -0.1161, Loss G: -2.5592, Wasserstein: 0.1167
+Epoch [196/200] Loss C: -0.1164, Loss G: -2.5496, Wasserstein: 0.1167
+Epoch [197/200] Loss C: -0.1161, Loss G: -2.5788, Wasserstein: 0.1149
+Epoch [198/200] Loss C: -0.1166, Loss G: -2.5355, Wasserstein: 0.1170
+Epoch [199/200] Loss C: -0.1161, Loss G: -2.5612, Wasserstein: 0.1155
+Epoch [200/200] Loss C: -0.1161, Loss G: -2.5378, Wasserstein: 0.1158
+生成 epoch 20 的样本...
+生成 epoch 40 的样本...
+生成 epoch 60 的样本...
+生成 epoch 80 的样本...
+生成 epoch 100 的样本...
+生成 epoch 120 的样本...
+生成 epoch 140 的样本...
+生成 epoch 160 的样本...
+生成 epoch 180 的样本...
+生成 epoch 200 的样本...

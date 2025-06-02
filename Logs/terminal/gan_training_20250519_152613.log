@@ -1,0 +1,255 @@
+使用 2 张GPU进行训练
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Epoch [1/200] Loss D: 0.1984, Loss G: 4.5313
+GPU 0 内存使用: 0.04GB
+GPU 1 内存使用: 0.02GB
+Epoch [2/200] Loss D: 0.2862, Loss G: 3.1898
+Epoch [3/200] Loss D: 0.5048, Loss G: 2.5613
+Epoch [4/200] Loss D: 0.6493, Loss G: 2.1264
+Epoch [5/200] Loss D: 0.7632, Loss G: 1.7967
+Epoch [6/200] Loss D: 0.7063, Loss G: 2.0885
+Epoch [7/200] Loss D: 0.7883, Loss G: 1.8247
+Epoch [8/200] Loss D: 0.8664, Loss G: 1.5470
+Epoch [9/200] Loss D: 0.8943, Loss G: 1.5183
+Epoch [10/200] Loss D: 0.8895, Loss G: 1.5649
+Epoch [11/200] Loss D: 0.8769, Loss G: 1.6372
+GPU 0 内存使用: 0.04GB
+GPU 1 内存使用: 0.02GB
+Epoch [12/200] Loss D: 0.9695, Loss G: 1.3735
+Epoch [13/200] Loss D: 0.9575, Loss G: 1.4314
+Epoch [14/200] Loss D: 1.0375, Loss G: 1.2231
+Epoch [15/200] Loss D: 1.0339, Loss G: 1.2618
+Epoch [16/200] Loss D: 1.0468, Loss G: 1.2220
+Epoch [17/200] Loss D: 1.0809, Loss G: 1.1583
+Epoch [18/200] Loss D: 1.0734, Loss G: 1.1904
+Epoch [19/200] Loss D: 1.1009, Loss G: 1.1292
+Epoch [20/200] Loss D: 1.1156, Loss G: 1.1016
+Epoch [21/200] Loss D: 1.1119, Loss G: 1.1470
+GPU 0 内存使用: 0.04GB
+GPU 1 内存使用: 0.02GB
+Epoch [22/200] Loss D: 1.1253, Loss G: 1.1014
+Epoch [23/200] Loss D: 1.1285, Loss G: 1.0781
+Epoch [24/200] Loss D: 1.1202, Loss G: 1.1105
+Epoch [25/200] Loss D: 1.1287, Loss G: 1.0903
+Epoch [26/200] Loss D: 1.1442, Loss G: 1.0561
+Epoch [27/200] Loss D: 1.1537, Loss G: 1.0433
+Epoch [28/200] Loss D: 1.1540, Loss G: 1.0519
+Epoch [29/200] Loss D: 1.1604, Loss G: 1.0300
+Epoch [30/200] Loss D: 1.1679, Loss G: 1.0237
+Epoch [31/200] Loss D: 1.1651, Loss G: 1.0352
+GPU 0 内存使用: 0.04GB
+GPU 1 内存使用: 0.02GB
+Epoch [32/200] Loss D: 1.1856, Loss G: 1.0016
+Epoch [33/200] Loss D: 1.1892, Loss G: 0.9882
+Epoch [34/200] Loss D: 1.1875, Loss G: 0.9884
+Epoch [35/200] Loss D: 1.1945, Loss G: 0.9894
+Epoch [36/200] Loss D: 1.1885, Loss G: 1.0017
+Epoch [37/200] Loss D: 1.1914, Loss G: 0.9880
+Epoch [38/200] Loss D: 1.1931, Loss G: 0.9839
+Epoch [39/200] Loss D: 1.1957, Loss G: 0.9838
+Epoch [40/200] Loss D: 1.1910, Loss G: 0.9943
+Epoch [41/200] Loss D: 1.2023, Loss G: 0.9671
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [42/200] Loss D: 1.2026, Loss G: 0.9665
+Epoch [43/200] Loss D: 1.2008, Loss G: 0.9726
+Epoch [44/200] Loss D: 1.2094, Loss G: 0.9633
+Epoch [45/200] Loss D: 1.2116, Loss G: 0.9533
+Epoch [46/200] Loss D: 1.2152, Loss G: 0.9539
+Epoch [47/200] Loss D: 1.2175, Loss G: 0.9415
+Epoch [48/200] Loss D: 1.2117, Loss G: 0.9502
+Epoch [49/200] Loss D: 1.2116, Loss G: 0.9510
+Epoch [50/200] Loss D: 1.2210, Loss G: 0.9440
+Epoch [51/200] Loss D: 1.2063, Loss G: 0.9359
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [52/200] Loss D: 1.1988, Loss G: 0.9480
+Epoch [53/200] Loss D: 1.1952, Loss G: 0.9545
+Epoch [54/200] Loss D: 1.1956, Loss G: 0.9547
+Epoch [55/200] Loss D: 1.1982, Loss G: 0.9524
+Epoch [56/200] Loss D: 1.1947, Loss G: 0.9582
+Epoch [57/200] Loss D: 1.1918, Loss G: 0.9637
+Epoch [58/200] Loss D: 1.1921, Loss G: 0.9670
+Epoch [59/200] Loss D: 1.1889, Loss G: 0.9609
+Epoch [60/200] Loss D: 1.1845, Loss G: 0.9734
+Epoch [61/200] Loss D: 1.1847, Loss G: 0.9774
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [62/200] Loss D: 1.1834, Loss G: 0.9805
+Epoch [63/200] Loss D: 1.1825, Loss G: 0.9831
+Epoch [64/200] Loss D: 1.1770, Loss G: 0.9878
+Epoch [65/200] Loss D: 1.1759, Loss G: 0.9939
+Epoch [66/200] Loss D: 1.1758, Loss G: 0.9919
+Epoch [67/200] Loss D: 1.1763, Loss G: 0.9955
+Epoch [68/200] Loss D: 1.1692, Loss G: 0.9995
+Epoch [69/200] Loss D: 1.1737, Loss G: 0.9997
+Epoch [70/200] Loss D: 1.1711, Loss G: 0.9981
+Epoch [71/200] Loss D: 1.1708, Loss G: 1.0024
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [72/200] Loss D: 1.1675, Loss G: 1.0095
+Epoch [73/200] Loss D: 1.1694, Loss G: 1.0106
+Epoch [74/200] Loss D: 1.1662, Loss G: 1.0138
+Epoch [75/200] Loss D: 1.1670, Loss G: 1.0099
+Epoch [76/200] Loss D: 1.1671, Loss G: 1.0123
+Epoch [77/200] Loss D: 1.1662, Loss G: 1.0204
+Epoch [78/200] Loss D: 1.1584, Loss G: 1.0227
+Epoch [79/200] Loss D: 1.1649, Loss G: 1.0221
+Epoch [80/200] Loss D: 1.1607, Loss G: 1.0257
+Epoch [81/200] Loss D: 1.1557, Loss G: 1.0290
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [82/200] Loss D: 1.1571, Loss G: 1.0303
+Epoch [83/200] Loss D: 1.1563, Loss G: 1.0307
+Epoch [84/200] Loss D: 1.1584, Loss G: 1.0302
+Epoch [85/200] Loss D: 1.1518, Loss G: 1.0416
+Epoch [86/200] Loss D: 1.1512, Loss G: 1.0402
+Epoch [87/200] Loss D: 1.1522, Loss G: 1.0422
+Epoch [88/200] Loss D: 1.1518, Loss G: 1.0399
+Epoch [89/200] Loss D: 1.1465, Loss G: 1.0432
+Epoch [90/200] Loss D: 1.1486, Loss G: 1.0446
+Epoch [91/200] Loss D: 1.1467, Loss G: 1.0495
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [92/200] Loss D: 1.1450, Loss G: 1.0547
+Epoch [93/200] Loss D: 1.1454, Loss G: 1.0467
+Epoch [94/200] Loss D: 1.1393, Loss G: 1.0532
+Epoch [95/200] Loss D: 1.1445, Loss G: 1.0598
+Epoch [96/200] Loss D: 1.1428, Loss G: 1.0634
+Epoch [97/200] Loss D: 1.1423, Loss G: 1.0560
+Epoch [98/200] Loss D: 1.1445, Loss G: 1.0586
+Epoch [99/200] Loss D: 1.1395, Loss G: 1.0616
+Epoch [100/200] Loss D: 1.1408, Loss G: 1.0656
+Epoch [101/200] Loss D: 1.1258, Loss G: 1.0758
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [102/200] Loss D: 1.1197, Loss G: 1.0813
+Epoch [103/200] Loss D: 1.1259, Loss G: 1.0842
+Epoch [104/200] Loss D: 1.1233, Loss G: 1.0820
+Epoch [105/200] Loss D: 1.1229, Loss G: 1.0860
+Epoch [106/200] Loss D: 1.1173, Loss G: 1.0863
+Epoch [107/200] Loss D: 1.1205, Loss G: 1.0824
+Epoch [108/200] Loss D: 1.1216, Loss G: 1.0935
+Epoch [109/200] Loss D: 1.1185, Loss G: 1.0879
+Epoch [110/200] Loss D: 1.1181, Loss G: 1.0874
+Epoch [111/200] Loss D: 1.1133, Loss G: 1.0923
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [112/200] Loss D: 1.1132, Loss G: 1.0950
+Epoch [113/200] Loss D: 1.1146, Loss G: 1.1013
+Epoch [114/200] Loss D: 1.1105, Loss G: 1.1013
+Epoch [115/200] Loss D: 1.1119, Loss G: 1.1000
+Epoch [116/200] Loss D: 1.1180, Loss G: 1.1063
+Epoch [117/200] Loss D: 1.1145, Loss G: 1.0957
+Epoch [118/200] Loss D: 1.1137, Loss G: 1.1028
+Epoch [119/200] Loss D: 1.1095, Loss G: 1.0980
+Epoch [120/200] Loss D: 1.1097, Loss G: 1.1054
+Epoch [121/200] Loss D: 1.1097, Loss G: 1.1016
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [122/200] Loss D: 1.1094, Loss G: 1.1061
+Epoch [123/200] Loss D: 1.1100, Loss G: 1.1084
+Epoch [124/200] Loss D: 1.1109, Loss G: 1.1099
+Epoch [125/200] Loss D: 1.1087, Loss G: 1.1098
+Epoch [126/200] Loss D: 1.1044, Loss G: 1.1089
+Epoch [127/200] Loss D: 1.1086, Loss G: 1.1073
+Epoch [128/200] Loss D: 1.1105, Loss G: 1.1111
+Epoch [129/200] Loss D: 1.1061, Loss G: 1.1169
+Epoch [130/200] Loss D: 1.1072, Loss G: 1.1236
+Epoch [131/200] Loss D: 1.1027, Loss G: 1.1173
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [132/200] Loss D: 1.1036, Loss G: 1.1213
+Epoch [133/200] Loss D: 1.1059, Loss G: 1.1165
+Epoch [134/200] Loss D: 1.1075, Loss G: 1.1185
+Epoch [135/200] Loss D: 1.1052, Loss G: 1.1173
+Epoch [136/200] Loss D: 1.1002, Loss G: 1.1268
+Epoch [137/200] Loss D: 1.1033, Loss G: 1.1265
+Epoch [138/200] Loss D: 1.1049, Loss G: 1.1214
+Epoch [139/200] Loss D: 1.1005, Loss G: 1.1279
+Epoch [140/200] Loss D: 1.1042, Loss G: 1.1269
+Epoch [141/200] Loss D: 1.1007, Loss G: 1.1255
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [142/200] Loss D: 1.1030, Loss G: 1.1321
+Epoch [143/200] Loss D: 1.0968, Loss G: 1.1252
+Epoch [144/200] Loss D: 1.0984, Loss G: 1.1305
+Epoch [145/200] Loss D: 1.1011, Loss G: 1.1374
+Epoch [146/200] Loss D: 1.0964, Loss G: 1.1326
+Epoch [147/200] Loss D: 1.0953, Loss G: 1.1358
+Epoch [148/200] Loss D: 1.0923, Loss G: 1.1428
+Epoch [149/200] Loss D: 1.0986, Loss G: 1.1370
+Epoch [150/200] Loss D: 1.0931, Loss G: 1.1443
+Epoch [151/200] Loss D: 1.0891, Loss G: 1.1421
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [152/200] Loss D: 1.0891, Loss G: 1.1450
+Epoch [153/200] Loss D: 1.0889, Loss G: 1.1535
+Epoch [154/200] Loss D: 1.0835, Loss G: 1.1481
+Epoch [155/200] Loss D: 1.0854, Loss G: 1.1510
+Epoch [156/200] Loss D: 1.0850, Loss G: 1.1493
+Epoch [157/200] Loss D: 1.0817, Loss G: 1.1550
+Epoch [158/200] Loss D: 1.0816, Loss G: 1.1567
+Epoch [159/200] Loss D: 1.0841, Loss G: 1.1503
+Epoch [160/200] Loss D: 1.0786, Loss G: 1.1606
+Epoch [161/200] Loss D: 1.0838, Loss G: 1.1586
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [162/200] Loss D: 1.0778, Loss G: 1.1555
+Epoch [163/200] Loss D: 1.0817, Loss G: 1.1584
+Epoch [164/200] Loss D: 1.0841, Loss G: 1.1589
+Epoch [165/200] Loss D: 1.0848, Loss G: 1.1630
+Epoch [166/200] Loss D: 1.0797, Loss G: 1.1568
+Epoch [167/200] Loss D: 1.0872, Loss G: 1.1526
+Epoch [168/200] Loss D: 1.0797, Loss G: 1.1630
+Epoch [169/200] Loss D: 1.0783, Loss G: 1.1641
+Epoch [170/200] Loss D: 1.0809, Loss G: 1.1621
+Epoch [171/200] Loss D: 1.0821, Loss G: 1.1628
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [172/200] Loss D: 1.0752, Loss G: 1.1698
+Epoch [173/200] Loss D: 1.0759, Loss G: 1.1579
+Epoch [174/200] Loss D: 1.0772, Loss G: 1.1669
+Epoch [175/200] Loss D: 1.0754, Loss G: 1.1603
+Epoch [176/200] Loss D: 1.0782, Loss G: 1.1685
+Epoch [177/200] Loss D: 1.0755, Loss G: 1.1647
+Epoch [178/200] Loss D: 1.0769, Loss G: 1.1675
+Epoch [179/200] Loss D: 1.0767, Loss G: 1.1727
+Epoch [180/200] Loss D: 1.0723, Loss G: 1.1714
+Epoch [181/200] Loss D: 1.0769, Loss G: 1.1675
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [182/200] Loss D: 1.0782, Loss G: 1.1692
+Epoch [183/200] Loss D: 1.0770, Loss G: 1.1732
+Epoch [184/200] Loss D: 1.0702, Loss G: 1.1722
+Epoch [185/200] Loss D: 1.0718, Loss G: 1.1737
+Epoch [186/200] Loss D: 1.0753, Loss G: 1.1730
+Epoch [187/200] Loss D: 1.0790, Loss G: 1.1720
+Epoch [188/200] Loss D: 1.0720, Loss G: 1.1734
+Epoch [189/200] Loss D: 1.0750, Loss G: 1.1713
+Epoch [190/200] Loss D: 1.0701, Loss G: 1.1734
+Epoch [191/200] Loss D: 1.0764, Loss G: 1.1747
+GPU 0 内存使用: 0.05GB
+GPU 1 内存使用: 0.02GB
+Epoch [192/200] Loss D: 1.0710, Loss G: 1.1761
+Epoch [193/200] Loss D: 1.0665, Loss G: 1.1828
+Epoch [194/200] Loss D: 1.0700, Loss G: 1.1754
+Epoch [195/200] Loss D: 1.0741, Loss G: 1.1814
+Epoch [196/200] Loss D: 1.0763, Loss G: 1.1805
+Epoch [197/200] Loss D: 1.0777, Loss G: 1.1764
+Epoch [198/200] Loss D: 1.0705, Loss G: 1.1805
+Epoch [199/200] Loss D: 1.0727, Loss G: 1.1872
+Epoch [200/200] Loss D: 1.0675, Loss G: 1.1887
+生成 epoch 20 的样本...
+生成 epoch 40 的样本...
+生成 epoch 60 的样本...
+生成 epoch 80 的样本...
+生成 epoch 100 的样本...
+生成 epoch 120 的样本...
+生成 epoch 140 的样本...
+生成 epoch 160 的样本...
+生成 epoch 180 的样本...
+生成 epoch 200 的样本...
