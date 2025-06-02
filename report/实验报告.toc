@@ -1,0 +1,28 @@
+\contentsline {section}{\numberline {1}任务一，二：GAN，WGAN，CGAN 在 MNIST 上的训练以及推理}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}实验设置与方法}{4}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}实验设置}{4}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}实验方法}{4}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}代码示例（仅给出GAN的代码示例）}{4}{subsubsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.2}训练细节与训练技巧}{6}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}正则化}{6}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}超参数调整}{7}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}单机多卡并行}{8}{subsubsection.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.2.4}多epoch + 学习率schedule}{9}{subsubsection.1.2.4}%
+\contentsline {subsubsection}{\numberline {1.2.5}模型保存与可视化}{10}{subsubsection.1.2.5}%
+\contentsline {subsubsection}{\numberline {1.2.6}插值分析}{11}{subsubsection.1.2.6}%
+\contentsline {subsection}{\numberline {1.3}实验结果与分析}{12}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}GAN和CGAN}{12}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}WGAN和WGAN-GP}{14}{subsubsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.4}实验结果与分析}{14}{subsection.1.4}%
+\contentsline {section}{\numberline {2}任务三：分析GAN在复杂数据集上的性能与模式坍塌问题}{16}{section.2}%
+\contentsline {subsection}{\numberline {2.1}实验设置与方法}{16}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}训练细节与训练技巧}{16}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}实验结果与分析}{16}{subsection.2.3}%
+\contentsline {section}{\numberline {3}附录}{17}{section.3}%
+\contentsline {subsection}{\numberline {3.1}GAN不同epoch生成的样本}{17}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}CGAN不同epoch生成的样本}{18}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}WGAN-GP不同epoch生成的样本}{19}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}BigGAN按类别生成样本展示 128x128}{20}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}BigGAN随机样本展示 128x128}{28}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}BigGAN随机样本展示 512x512}{31}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}BigGAN不同类别间插值采样}{33}{subsection.3.7}%
