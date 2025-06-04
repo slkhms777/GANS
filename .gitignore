@@ -15,4 +15,4 @@ BigGAN/data/*
 
 report/*
 !report/.gitkeep
-!report/报告/实验报告.tex
+!report/实验报告.tex
