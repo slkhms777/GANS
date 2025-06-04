@@ -13,6 +13,3 @@ visual/*
 BigGAN/data/*
 !BigGAN/data/.gitkeep
 
-report/*
-!report/.gitkeep
-!report/实验报告.tex
