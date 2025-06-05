@@ -4,12 +4,15 @@ checkpoints/*
 data/*
 !data/.gitkeep
 
-Log/*
-!Log/.gitkeep
+Logs/*
+!Logs/.gitkeep
 
 visual/*
 !visual/.gitkeep
 
 BigGAN/data/*
 !BigGAN/data/.gitkeep
+
+BigGAN/logs/*
+!BigGAN/logs/.gitkeep
 
